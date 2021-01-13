@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+#My local helper files
+*help*
+
 # Logs
 logs
 *.log
