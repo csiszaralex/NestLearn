@@ -3,6 +3,7 @@ import { Task, TaskStatus } from './task.model';
 // import uuid from 'uuid';
 import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { getTasksFilterDto } from './dto/get-tasks-filter.dto';
 
 @Injectable()
 export class TasksService {
@@ -10,6 +11,22 @@ export class TasksService {
 
   getAllTasks(): Task[] {
     return this.tasks;
+  }
+
+  getTasksWithFilters(filterDto: getTasksFilterDto): Task[] {
+    const { status, search } = filterDto;
+
+    let tasks = this.getAllTasks();
+    if (status) {
+      tasks = tasks.filter((x) => (x.status = status));
+    }
+    if (search) {
+      tasks = tasks.filter(
+        (x) => x.title.includes(search) || x.description.includes(search),
+      );
+    }
+
+    return tasks;
   }
 
   getTaskById(id: string): Task {
@@ -32,5 +49,11 @@ export class TasksService {
 
   deleteTask(id: string): void {
     this.tasks = this.tasks.filter((x) => x.id !== id);
+  }
+
+  updateTaskStatus(id: string, status: TaskStatus): Task {
+    const task = this.getTaskById(id);
+    task.status = status;
+    return task;
   }
 }
