@@ -40,10 +40,14 @@ export class TasksService {
     return this.taskRepository.createTask(createTaskDto);
   }
 
-  // deleteTask(id: string): void {
-  //   this.getTaskById(id); //.Így dob hibát, ha nem létezik
-  //   this.tasks = this.tasks.filter((x) => x.id !== id);
-  // }
+  async deleteTask(id: number): Promise<void> {
+    //. .delete(ID) -> Törli és visszaadja hányat törölt
+    //. .remove() -> Törli és am kitörölt adatait küldi vissza
+    const res = await this.taskRepository.delete(id);
+    if (!res.affected)
+      throw new NotFoundException(`Task with "${id}" id not found!`);
+  }
+
   // updateTaskStatus(id: string, status: TaskStatus): Task {
   //   const task = this.getTaskById(id);
   //   task.status = status;
