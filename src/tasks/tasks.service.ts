@@ -50,7 +50,7 @@ export class TasksService {
   }
 
   deleteTask(id: string): void {
-    const found = this.getTaskById(id);
+    this.getTaskById(id); //.Így dob hibát, ha nem létezik
     this.tasks = this.tasks.filter((x) => x.id !== id);
   }
 
