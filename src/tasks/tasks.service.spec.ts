@@ -78,9 +78,7 @@ describe('TasksService', () => {
     });
     it('Throw notFound error', () => {
       taskRepository.delete.mockResolvedValue({ affected: 0 });
-      expect(tasksService.deleteTask(1, mockUser)).rejects.toThrow(
-        new NotFoundException('Task with "1" id not found!'),
-      );
+      expect(tasksService.deleteTask(1, mockUser)).rejects.toThrow(NotFoundException);
     });
   });
   describe('updateTaskStatus', () => {
